@@ -374,33 +374,23 @@ public:
   // Print the list from head to tail
   void printList()
   {
-    cout << 1 << endl;
-    cout << "head : " << head << endl;
-    cout << "temp : " << head->getNext()->getNext()->getNext() << endl;
-    InventoryNode *temp = head->getNext();
+    InventoryNode *temp = head;
     if (head == nullptr)
     { // If the list is empty
       cout << "There is nothing in your bag." << endl;
-    cout << 2 << endl;
       return;
     }
     cout << "\n> Your bag contains: ";
-    cout << 3 << endl;
     while (temp != nullptr)
     { // If the list is not empty
-    cout << 4 << endl;
       cout << temp->getItem()->getName();
       if (temp->getNext() != nullptr)
       {
-    cout << 5 << endl;
         cout << ", ";
       }
-    cout << 6 << endl;
       temp = temp->getNext();
     }
-    cout << endl;
-    cout << 7 << endl;
-    
+    cout << endl; 
   }
 
   // Get the head pointer of the list
@@ -415,21 +405,25 @@ void saveGame(int slot, RoomList rooms, RoomNode *current, InventoryList invento
 {
   // Save the current room
   ofstream file("save" + to_string(slot) + ".txt");
-
   // Save the rooms' state
-  RoomNode *temp1 = rooms.getHead()->getNext();
+  RoomNode *temp1 = rooms.getHead()->getNext()->getNext();
+  // InventoryNode *invItems = inventory.getHead();
   while (temp1 != nullptr)
   {
     if (temp1->getItem() != nullptr)
     {                      // If the room has an item
       file << "1" << endl; // Write 1 to indicate the item is present
+      // file << "1 " << temp1->getItem()->getName() << endl; // Write 1 to indicate the item is present
       temp1 = temp1->getNext();
     }
     else
     {                      // If the room does not have an item
       file << "0" << endl; // Write 0 to indicate the item is absent
+      // file << "0 " << invItems->getItem()->getName() << endl; // Write 0 to indicate the item is absent
       temp1 = temp1->getNext();
     }
+    // invItems = invItems->getNext();
+    // temp1 = temp1->getNext();
   }
 
   // Save the current room
@@ -462,13 +456,17 @@ bool loadGame(int slot, RoomList &rooms, RoomNode *&current, InventoryList &inve
   string line;
   RoomNode *temp1 = rooms.getHead()->getNext();
 
-  // file >> line;
+  file >> line; // skip bag
+  // getline(file, line); // skip bag
+
   for (int i = 0; i < 12; i++)
   {
     file >> line;
+    // getline(file, line); // skip bag
+    // line = line[0];
     if (line == "0")
     {
-      cout << temp1->getItem()->getName() << endl;        // kiv
+      // cout << temp1->getItem()->getName() << endl;        // kiv
       inventory.insertNode(temp1->getItem()); // Insert the item to the inventory list
       temp1->resetItem();                     // Reset the item in the room if it is absent
     }
