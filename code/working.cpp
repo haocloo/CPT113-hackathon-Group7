@@ -374,23 +374,33 @@ public:
   // Print the list from head to tail
   void printList()
   {
-    InventoryNode *temp = head;
+    cout << 1 << endl;
+    cout << "head : " << head << endl;
+    cout << "temp : " << head->getNext()->getNext()->getNext() << endl;
+    InventoryNode *temp = head->getNext();
     if (head == nullptr)
     { // If the list is empty
-      cout << "> There is nothing in your bag." << endl;
+      cout << "There is nothing in your bag." << endl;
+    cout << 2 << endl;
       return;
     }
     cout << "\n> Your bag contains: ";
+    cout << 3 << endl;
     while (temp != nullptr)
     { // If the list is not empty
+    cout << 4 << endl;
       cout << temp->getItem()->getName();
       if (temp->getNext() != nullptr)
       {
+    cout << 5 << endl;
         cout << ", ";
       }
+    cout << 6 << endl;
       temp = temp->getNext();
     }
     cout << endl;
+    cout << 7 << endl;
+    
   }
 
   // Get the head pointer of the list
@@ -407,7 +417,7 @@ void saveGame(int slot, RoomList rooms, RoomNode *current, InventoryList invento
   ofstream file("save" + to_string(slot) + ".txt");
 
   // Save the rooms' state
-  RoomNode *temp1 = rooms.getHead();
+  RoomNode *temp1 = rooms.getHead()->getNext();
   while (temp1 != nullptr)
   {
     if (temp1->getItem() != nullptr)
@@ -450,14 +460,15 @@ bool loadGame(int slot, RoomList &rooms, RoomNode *&current, InventoryList &inve
 
   // reset item in room
   string line;
-  RoomNode *temp1 = rooms.getHead();
+  RoomNode *temp1 = rooms.getHead()->getNext();
 
-  for (int i = 0; i < 13; i++)
+  // file >> line;
+  for (int i = 0; i < 12; i++)
   {
     file >> line;
     if (line == "0")
     {
-      // cout << temp1->getItem()->getName();        // kiv
+      cout << temp1->getItem()->getName() << endl;        // kiv
       inventory.insertNode(temp1->getItem()); // Insert the item to the inventory list
       temp1->resetItem();                     // Reset the item in the room if it is absent
     }
@@ -479,7 +490,6 @@ bool loadGame(int slot, RoomList &rooms, RoomNode *&current, InventoryList &inve
 
   // Load hasBag state
   file >> line;
-  // cout << "hjsabag" << line << endl;
   if (line == "0")
   {
     cout << "You have a bag." << endl;
@@ -894,9 +904,7 @@ void gameloop(string &input, bool &gameover, RoomList &rooms, RoomNode *&current
     {
       if (hasBag)
       {
-        cout << "in has bag" << endl;
         inventory.printList();
-        cout << "in has bag" << endl;
       }
       else
       {
