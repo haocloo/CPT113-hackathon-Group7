@@ -1,0 +1,9 @@
+things to showcase
+- next
+- prev
+- pick
+- use
+- inv
+- quit
+
+hold only 1 item in the hand
