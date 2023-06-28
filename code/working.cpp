@@ -632,6 +632,36 @@ void gameloop(string &input, bool &gameover, RoomList &rooms, RoomNode *&current
         cout << "Nothing happens..." << endl;
       }
     }
+    else if (current->getRoomName() == "Secret Room 1" && input == "JOHN")
+    {
+        // Move to the next secret room if correct answer entered
+        cout << "Correct answer!!! ^O^" << endl;
+        cout << "Answer: The name of the fifth son is John. \n"
+			 << "The sentence states, 'John's father has five sons,' implying that John is one of the sons." << endl;
+    	cout << "Well done, intrepid explorers! You've proven your skills. \n"
+			 << "But the journey is far from over. \n"
+			 << "Prepare yourselves for what lies beyond this door." << endl;
+        current = current->getNext();
+	}
+	else if (current->getRoomName() == "Secret Room 2" && input == "R")
+    {
+        // Move to the next secret room if correct answer entered
+        cout << "Correct answer!!! ^O^" << endl;
+        cout << "Answer: The letter 'R' is the central letter in the word 'Australia'." << endl;
+    	cout << "Impressive... you have surpassed the second trial. \n"
+			 << "But can you navigate the depths of the unknown that lie ahead? \n"
+			 << "Enter, if you dare. But you got no choice. ^_~ " << endl;
+        current = current->getNext();
+	}
+	else if (current->getRoomName() == "Secret Room 3" && (input == "1" || input == "ONE"))
+    {
+        // Move to the next secret room if correct answer entered
+        cout << "Correct answer!!! ^O^" << endl;
+        cout << "Answer: One. After that, it isn't empty." << endl;
+    	cout << "You've unlocked the secrets of the previous room, but there's more to discover. \n"
+			 << "Step into the next chapter of this enigmatic puzzle and unlock the mysteries that await." << endl;
+        current = current->getNext();
+	}
     else if (input == "ANSWER")
     {
       // Move to the next secret room if possible
@@ -661,16 +691,23 @@ void gameloop(string &input, bool &gameover, RoomList &rooms, RoomNode *&current
               (current->getRoomName() == "Secret Room 3" && (guess == "1" || guess == "ONE")))
           {
           	if  (current->getRoomName() == "Secret Room 1" && guess == "JOHN") {
+          		cout << "Correct answer!!! ^O^" << endl;
+          		cout << "Answer: The name of the fifth son is John. \n"
+			 		 << "The sentence states, 'John's father has five sons,' implying that John is one of the sons." << endl;
           		cout << "Well done, intrepid explorers! You've proven your skills. \n"
 				  	 << "But the journey is far from over. \n"
 				   	 << "Prepare yourselves for what lies beyond this door." << endl;
 			  }	
 			else if (current->getRoomName() == "Secret Room 2" && guess == "R") {
+				cout << "Correct answer!!! ^O^" << endl;
+				cout << "Answer: The letter 'R' is the central letter in the word 'Australia'." << endl;
 				cout << "Impressive... you have surpassed the second trial. \n"
 					 << "But can you navigate the depths of the unknown that lie ahead? \n"
 					 << "Enter, if you dare. But you got no choice. ^_~ " << endl;
 			}	
 			else {
+				cout << "Correct answer!!! ^O^" << endl;
+				cout << "Answer: One. After that, it isn't empty." << endl;
 				cout << "You've unlocked the secrets of the previous room, but there's more to discover. \n"
 					 << "Step into the next chapter of this enigmatic puzzle and unlock the mysteries that await." << endl;
 			}
@@ -693,7 +730,7 @@ void gameloop(string &input, bool &gameover, RoomList &rooms, RoomNode *&current
       {
         cout << "Nothing happens..." << endl;
       }
-    }
+    }    
     else if (input == "PREV")
     {
       // Move to the previous room if possible
