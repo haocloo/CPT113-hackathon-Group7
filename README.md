@@ -1,7 +1,9 @@
-# CPT113-hackathon-Group-7
+# Whispers of the Forgotten Castle 
+![Map](pictures/main%20pic.png)
+
 |No.|Table of Contents|
 |:-:|-|
-|0|[Team Members](#team-members)|
+|0|[Team Members](#team-members-group-7)|
 |1|[Description](#description-of-the-game)|
 |2|[Features](#features-of-the-game)|
 |3|[How to play](#how-to-play-the-game)|
@@ -12,7 +14,7 @@
 
 <br><br>
 
-## Team Members
+## Team Members (Group 7)
 |No.|Name|Matrics ID|
 |:-:|-|-|
 |1|KOAY CHUN KEAT|164592|
