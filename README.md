@@ -1,5 +1,6 @@
 # Whispers of the Forgotten Mansion 
 ![Game Map](pictures/main%20pic.png)
+<br>
 This picture shows the entire game map.
 
 <br>
@@ -13,7 +14,7 @@ This picture shows the entire game map.
 
 <br>
 
-### [Link to the game demo video](https://www.google.com/)
+### [Link to the game demo video](https://youtu.be/5RLFO1FOpHs)
 
 
 <br>
@@ -26,7 +27,7 @@ git clone https://github.com/haocloo/CPT113-hackathon-Group7
 ```
 
 <br>
-2) Navigate to `Game/main.cpp`, compile and run the program
+2) Navigate to `main.cpp`, compile and run the program
 
 <br><br>
 <details open>
@@ -184,18 +185,3 @@ The inventory list is a singly linked list that allows traversal in one directio
 
 </details>
 <br><br>
-
-
-
-
-
-<br><br>
-
-# gameplay video (youtube link)
-- video must match actual user experience
-- highlight incomplete features if any
-
-- feature of the game
-- how to play
-- how it works
-- Game Flow
