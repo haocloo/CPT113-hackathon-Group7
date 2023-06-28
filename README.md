@@ -156,10 +156,36 @@ The inventory list is a singly linked list that allows traversal in one directio
 <summary style = "font-size: 20px; font-weight: bold; cursor: pointer;">🌟 Screenshots of the game</summary>
 
 ---
-pictures
+* You will be greeted with this page when you load the program.
+<br><br>
+![start](pictures/gameplay/greetings.png)
+
+* When you enter `next`, you will be taken to the next room.
+![next](pictures/gameplay/next.png)
+
+* When you enter `prev`, you will be taken to the previous room.
+![prev](pictures/gameplay/prev.png)
+
+* When you enter `pick`, you will pick up the item in the room and add it to your inventory.
+![pick](pictures/gameplay/pick.png)
+
+* If you pick a bag, the item will be automatically inserted into the bag.
+![bag](pictures/gameplay/bag.png)
+
+* If you move to the last room, you will find the treasure chest.
+![treasure](pictures/gameplay/treasure_locked.png)
+
+* If you use silver cross, you will notice the secret command to enter the hidden room which is `Open_Sesame!`.
+![silver cross](pictures/gameplay/silver_cross.png)
+
+* Once you entered the hidden room, you will need to `pick` and `use` the card1. You will be asked questions as you go through the hidden rooms. Once you reached the final room, you will get one of the item needed to unlock the treasure chest.
+![hidden room](pictures/gameplay/enter_hidden.png)
+
 
 </details>
 <br><br>
+
+
 
 
 
