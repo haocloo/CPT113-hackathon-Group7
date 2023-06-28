@@ -17,6 +17,7 @@ This picture shows the entire game map.
 <details>
 <summary style = "font-size: 20px; font-weight: bold; cursor: pointer;">Description of the game</summary>
 
+---
 This is a treasure hunt game where you explore a dark mansion with many rooms. Your goal is to find the treasure hidden in the treasure room. You can move between rooms such as the lobby, the dining room, the kitchen, the ballroom, the library, the attic, the tower, the garden, the crypt, the cellar, and the study. You can also discover hidden rooms such as the secret room and the final secret room. You can pick up items such as a bag, a water bottle, a knife, a map, a riddle book, a diary, a telescope, a box, a silver cross, a secret key, a star puzzle, and a star key. You can use items to solve riddles, unlock hidden rooms, or open the treasure chest. The objective of the game is to obtain the star key and the star puzzle and enter the correct password to unlock the treasure chest and win the game.
 </details>
 
@@ -25,6 +26,7 @@ This is a treasure hunt game where you explore a dark mansion with many rooms. Y
 <details>
 <summary style = "font-size: 20px; font-weight: bold; cursor: pointer;">Features of the game</summary>
 
+---
 ### 1) Move between rooms, pick up items, use items, and check your inventory
 
 - The user can move between rooms using the commands next and prev. The current room pointer will point to the next or previous node in the room list, respectively. The user can also move to a hidden room using a special action and a special key, if available. The hidden room pointer will point to a node that is not part of the main room list.
@@ -49,6 +51,7 @@ This is a treasure hunt game where you explore a dark mansion with many rooms. Y
 <details>
 <summary style = "font-size: 20px; font-weight: bold; cursor: pointer;">How to play the game</summary>
 
+---
 First of all, there is a welcome message that shows that the game has started and the player is born in front of an entrance with nothing. Next, the player needs to enter their next action to start their exploration. After the entrance, each room will provide a new item for the player to help them know more about their location and how to proceed. At the same time, the player can make a `pick` action which can let the player get the item in hand first. However, when the player picks the item named Bag, an inventory system is activated for the player which allows them to hold a lot of items at the same time. Next, with the item in the player’s hand or the items in the Bag, the player can start to use the item they picked. After the player enters the `use` action, they are asked to enter the item name they want to use. However, the player can also enter a “0” to cancel the `use` action. After picking up a few items, the player can do an `inv` action to view all the items in the Bag. When the player wants to rest for a while or exit the game, they can input the `quit` action. At the moment the `quit` action is operating, the game system will ask whether the player wants to save their progress or not. Once the player saves the game progress, they will be able to load the game with the previous state. Let me tell you a secret: there is a hidden room among the rooms. With a special action, `Open_Sesame!`, the player will be allowed to enter the secret room with some requirements to open it. In the secret room, there are some questions to test the player. After the player finishes the test, they will automatically move to another secret room. Once they complete all the questions, they are free to move between the secret rooms. The game is very interesting and fun. Therefore, let us give it a try.
 </details>
 
@@ -56,6 +59,8 @@ First of all, there is a welcome message that shows that the game has started an
 
 <details>
 <summary style = "font-size: 20px; font-weight: bold; cursor: pointer;">Object-oriented concepts</summary>
+
+---
 The program uses several object-oriented concepts, such as classes, objects/composition, inheritance, polymorphism, and encapsulation. The program defines four classes: Room, Item, Treasure, and Node. Each class has its own attributes and methods that define its behavior and state. The program also creates objects from these classes and manipulates them using pointers and functions.
 
 ### Classes
@@ -117,6 +122,7 @@ The program uses encapsulation to hide the implementation details of the classes
 <details>
 <summary style = "font-size: 20px; font-weight: bold; cursor: pointer;">Linked List Implementation</summary>
 
+---
 The program uses two types of linked lists: a doubly linked list for the rooms and a singly linked list for the inventory. Each node in the room list contains a pointer to a room object, which has attributes such as name, description, item, treasure, and hidden room. Each node in the inventory list contains a pointer to an item object, which has attributes such as clue and name. The program also uses pointers to keep track of the current room and the item in hand.
 
 ### Room List
@@ -132,6 +138,9 @@ The inventory list is a singly linked list that allows traversal in one directio
 <details>
 <summary style = "font-size: 20px; font-weight: bold; cursor: pointer;">Screenshots of the game</summary>
 
+---
+pictures
+
 </details>
 <br><br>
 
@@ -142,21 +151,8 @@ The inventory list is a singly linked list that allows traversal in one directio
 # gameplay video (youtube link)
 - video must match actual user experience
 - highlight incomplete features if any
-### feature of the game
----
 
-### how to play
----
-### how it works
----
-
-The game is a treasure hunt game where the user explores a dark mansion with many rooms and tries to find the treasure hidden in one of them. The user can interact with the game using commands such as next, prev, pick, use, inv, and quit. The user can also save and load their game progress using three slots. The game uses object-oriented programming concepts such as classes, objects, inheritance, polymorphism, and encapsulation to implement the game logic and data structures.
-
-### Game Flow
-
-The game flow can be summarized as follows:
-
-- The main function runs the program and checks for existing save files. It then asks the user if they want to load a saved game or start a new game. It then calls the Game function with the appropriate choice parameter.
-- The Game function sets up the game by creating a linked list of rooms and inserting items and treasures into them. It also creates some variables to store the game state, such as the current room, the user input, the inventory list, the item in hand, and the bag status. It then prints some messages to welcome the user and explain the commands. It then calls the gameloop function to start the game.
-- The gameloop function runs a while loop until the game is over. It prints the current room's name, description, item, and treasure (if any). It then prompts the user for input and converts it to uppercase. It then processes the user input using conditional statements and calls various methods of the room list, inventory list, item class, or treasure class to update the game state. It also checks for winning or losing conditions and prints appropriate messages. It also allows the user to save or load their game progress using file operations.
-- The program ends when the user quits the game or unlocks the treasure.
+- feature of the game
+- how to play
+- how it works
+- Game Flow
