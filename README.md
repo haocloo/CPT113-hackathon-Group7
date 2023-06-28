@@ -58,8 +58,8 @@ This is a treasure hunt game where you explore a mansion with many rooms. Your g
 
 ### 3️⃣ Save and load your game progress using three slots
 
-- The user can save their game progress using the command `quit`. The user will be asked if they want to save their game and which slot they want to save to. There are three slots available: 1, 2, and 3. The program will use file operations to write the game state to a text file named savefile1.txt, savefile2.txt, or savefile3.txt, respectively. The game state includes information such as hasBag status, item in room status, current room name, etc.
-- The user can load their game progress from an existing save file at the start of the program. The program will check for existing save files and ask the user if they want to load them or start a new game. If the user chooses to load a saved game, they will be asked which slot they want to load from. The program will use file operations to read the game state from a text file named savefile1.txt, savefile2.txt, or savefile3.txt, respectively. The program will then set up the game according to the saved game state.
+- The user can save their game progress using the command `quit`. The user will be asked if they want to save their game and which slot they want to save to. There are three slots available: 1, 2, and 3. The program will use file operations to write the game state to a text file named save1.txt, save2.txt, or save3.txt, respectively. The game state includes information such as hasBag status, item in room status, current room name, etc.
+- The user can load their game progress from an existing save file at the start of the program. The program will check for existing save files and ask the user if they want to load them or start a new game. If the user chooses to load a saved game, they will be asked which slot they want to load from. The program will use file operations to read the game state from a text file named save1.txt, save2.txt, or save3.txt, respectively. The program will then set up the game according to the saved game state.
 </details>
 
 <br><br>
