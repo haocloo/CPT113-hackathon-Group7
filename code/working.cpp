@@ -983,7 +983,7 @@ void gameloop(string &input, bool &gameover, RoomList &rooms, RoomNode *&current
           cout << "You feel more energized and alert." << endl;
           if (hasBag)
           {
-            inventory.deleteNode(name);
+            inventory.deleteNode(Title_Case(name));
           }
           else
           {
@@ -1005,7 +1005,7 @@ void gameloop(string &input, bool &gameover, RoomList &rooms, RoomNode *&current
             cout << "The box is surprisingly lightweight and seems to be of high quality." << endl;
             cout << "You notice a small piece of paper with something written on it." << endl;
             inventory.insertNode(new Item("A paper with something written on it", "Paper"));
-            inventory.deleteNode(name);
+            inventory.deleteNode(Title_Case(name));
           }
           else
           {
