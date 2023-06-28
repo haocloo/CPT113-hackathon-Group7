@@ -445,6 +445,7 @@ void saveGame(int slot, RoomList rooms, RoomNode *current, InventoryList invento
   // InventoryNode *invItems = inventory.getHead();
   while (temp1 != nullptr)
   {
+    cout << temp1->getRoomName() << endl;
     if (temp1->getItem() != nullptr)
     {                      // If the room has an item
       file << "1" << endl; // Write 1 to indicate the item is present in room
@@ -477,39 +478,6 @@ void saveGame(int slot, RoomList rooms, RoomNode *current, InventoryList invento
           file << "00" << endl; // Write 00 to indicate the item is absent in room and has been used
         }
       }
-      else if (temp1->getRoomName() == "Secret Room 1")
-      {
-        if (inventory.existsNode("Card1") == true || hand->getName() == "Card1")
-        {
-          file << "01" << endl; // Write 01 to indicate the item is absent in room and has not been used
-        }
-        else
-        {
-          file << "00" << endl; // Write 00 to indicate the item is absent in room and has been used
-        }
-      }
-      else if (temp1->getRoomName() == "Secret Room 2")
-      {
-        if (inventory.existsNode("Card2") == true || hand->getName() == "Card2")
-        {
-          file << "01" << endl; // Write 01 to indicate the item is absent in room and has not been used
-        }
-        else
-        {
-          file << "00" << endl; // Write 00 to indicate the item is absent in room and has been used
-        }
-      }
-      else if (temp1->getRoomName() == "Secret Room 3")
-      {
-        if (inventory.existsNode("Card3") == true || hand->getName() == "Card3")
-        {
-          file << "01" << endl; // Write 01 to indicate the item is absent in room and has not been used
-        }
-        else
-        {
-          file << "00" << endl; // Write 00 to indicate the item is absent in room and has been used
-        }
-      }
       else
       {
         file << "0" << endl;
@@ -518,20 +486,59 @@ void saveGame(int slot, RoomList rooms, RoomNode *current, InventoryList invento
     }
   }
 
+
   RoomNode *temp2 = rooms.getHead()->getNext()->getNext()->getNext()->getNext()->getNext()->getHidden();
-  while (temp2 != nullptr)
+  while (temp2 != nullptr )
   {
+        cout << temp2->getRoomName() << endl;
+
     if (temp2->getItem() != nullptr)
     {                      // If the room has an item
       file << "1" << endl; // Write 1 to indicate the item is present in room
       // file << "1 " << temp1->getItem()->getName() << endl; // Write 1 to indicate the item is present
+      temp2 = temp2->getNext();
     }
     else
-    {
-      file << "0" << endl;
+    { // If the room does not have an item
+      if (temp2->getRoomName() == "Secret Room 1")
+      {
+        if (inventory.existsNode("Card1") == true)
+        {
+          file << "01" << endl; // Write 01 to indicate the item is absent in room and has not been used
+        }
+        else
+        {
+          file << "00" << endl; // Write 00 to indicate the item is absent in room and has been used
+        }
+      }
+      else if (temp2->getRoomName() == "Secret Room 2")
+      {
+        if (inventory.existsNode("Card2") == true)
+        {
+          file << "01" << endl; // Write 01 to indicate the item is absent in room and has not been used
+        }
+        else
+        {
+          file << "00" << endl; // Write 00 to indicate the item is absent in room and has been used
+        }
+      }
+      else if (temp2->getRoomName() == "Secret Room 3")
+      {
+        if (inventory.existsNode("Card3") == true)
+        {
+          file << "01" << endl; // Write 01 to indicate the item is absent in room and has not been used
+        }
+        else
+        {
+          file << "00" << endl; // Write 00 to indicate the item is absent in room and has been used
+        }
+      }else{
+        file << "0" << endl;
+      }
+      temp2 = temp2->getNext();
     }
-    temp2 = temp2->getNext();
   }
+
 
   // Save the current room
   file << current->getRoomName() << endl; // Write the name of the current room
@@ -553,11 +560,12 @@ bool loadGame(int slot, RoomList &rooms, RoomNode *&current, InventoryList &inve
 {
   ifstream file("save" + to_string(slot) + ".txt");
   string line;
-
+  
   // Load hasBag state
   file >> line;
   if (line == "0")
   {
+    cout << "Has bag" << endl;
     hasBag = true;
   }
   else
@@ -571,6 +579,7 @@ bool loadGame(int slot, RoomList &rooms, RoomNode *&current, InventoryList &inve
   while (temp1 != nullptr)
   {
     file >> line;
+    cout << "While 1" << line << endl;
     // getline(file, line); // skip bag
     // line = line[0];
     if (line == "0" || line == "01")
@@ -600,20 +609,13 @@ bool loadGame(int slot, RoomList &rooms, RoomNode *&current, InventoryList &inve
 
   RoomNode *temp2 = rooms.getHead()->getNext()->getNext()->getNext()->getNext()->getNext()->getHidden();
 
-  // while (temp2 != nullptr)
-  // {
-  //   file >> line;
-  //   if (line == "0")
-  //   {
-  //     inventory.insertNode(temp2->getItem()); // Insert the item to the inventory list
-  //     temp2->resetItem();                     // Reset the item in the room if it is absent
-  //   }
-  //   temp2 = temp2->getNext();
-  // }
 
-  while (temp2 != nullptr && temp2->getRoomName() != "Final Secret Room")
+
+  while (temp2 != nullptr)
   {
+
     file >> line;
+              cout << "while 2" << line << endl;
 
     if (line == "0" || line == "01")
     {
@@ -667,13 +669,14 @@ bool loadGame(int slot, RoomList &rooms, RoomNode *&current, InventoryList &inve
     }
   }
 
+
   file.close(); // Close the file
 
   return true; // Return true to indicate successful loading
 }
 
 // Define a function to check whethere the save file is empty
-bool isFileEmpty(const std::string &filename)
+bool isFileEmpty(const string &filename)
 {
   ifstream file(filename);
   return file.peek() == ifstream::traits_type::eof();
@@ -686,7 +689,7 @@ void gameloop(string &input, bool &gameover, RoomList &rooms, RoomNode *&current
   // Start the game loop
   while (!gameover)
   {
-    cout << "\n------------------ " << current->getRoomName() << " --------------" << endl;
+    cout << "\n------------------ " << current->getRoomName() << " ------------------" << endl;
     cout << current->getDescription() << endl;
     // Print the current room's clue
     if (current->getItem() != nullptr)
@@ -728,7 +731,7 @@ void gameloop(string &input, bool &gameover, RoomList &rooms, RoomNode *&current
           if (current->getTreasure()->getPassword() == password)
           {
             // Print the winning message and end the game
-            cout << "Correct password!!!" << endl;
+            cout << "Correct password!" << endl;
             cout << "You use the " << current->getTreasure()->getRequirement1() << " and " << current->getTreasure()->getRequirement2() << " to open the chest and find the treasure!" << endl;
             cout << "Congratulations, you win!" << endl;
             gameover = true;
@@ -736,7 +739,7 @@ void gameloop(string &input, bool &gameover, RoomList &rooms, RoomNode *&current
           }
           else
           {
-            cout << "Wrong password!!!" << endl;
+            cout << "Wrong password." << endl;
             do
             {
               cout << "Do you want to try again?	(Y/N)";
@@ -1331,13 +1334,6 @@ void Game(int choice = 0)
       new Treasure("You found the treasure chest! But it's locked with a star-shaped lock...", "Star Key", "Star Puzzle", 123888));
 
   // Insert hidden rooms
-  rooms.insertHidden(
-      "Secret Room",
-      "You enter a hidden secret room, shrouded in darkness. As your eyes adjust, you notice a key with a star symbol on a dusty shelf. It seems to be the key to a hidden treasure chest.",
-      new Item("a key with a star symbol", "Star Key"),
-      nullptr,
-      "Library");
-
   rooms.insertHidden(
       "Final Secret Room",
       "You enter the last secret room, shrouded in darkness. \n"
