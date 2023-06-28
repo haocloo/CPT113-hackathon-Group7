@@ -14,6 +14,7 @@ int main()
 
   if (saveFile1 || saveFile2 || saveFile3)
   {
+    
     int choice;
     cout << "There are save file(s) in the memory." << endl;
     cout << "Do you want to load the save file(s)?" << endl;

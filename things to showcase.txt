@@ -7,3 +7,47 @@ things to showcase
 - quit
 
 hold only 1 item in the hand
+
+1. next
+- a) navigate to next room 
+- b) in last room, use next, hit wall
+
+2. prev
+- a) navigate to prev room
+- b) in first room, use prev, hit wall
+
+3.pick & inv
+- a) demo pick item 
+
+- dont pick bag
+- pick stuff
+- inv
+- pick other stuff - cannot pick anymore stuff
+ 
+- pick bag
+- pick stuff
+- inv
+- pick other stuff
+- inv again
+
+4. use 
+- 2 types of item, temporary @ permanent
+
+showcase temporary (water)
+- pick
+- use water
+- inv
+
+showcase permanent (knife)
+-pick
+-use knife
+-inv
+
+5. quit
+- a) No -> quit game
+- b) Back -> resume with current progress
+- c) Yes -> i) choose slot
+                - case 1: existing slot, overwrite
+                - case 2: non-exisit slot, save
+            ii) back -> resume with current progress
+
