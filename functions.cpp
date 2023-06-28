@@ -55,7 +55,6 @@ void saveGame(int slot, RoomList rooms, RoomNode *current, InventoryList invento
   // InventoryNode *invItems = inventory.getHead();
   while (temp1 != nullptr)
   {
-    cout << temp1->getRoomName() << endl;
     if (temp1->getItem() != nullptr)
     {                      // If the room has an item
       file << "1" << endl; // Write 1 to indicate the item is present in room
@@ -166,15 +165,19 @@ void saveGame(int slot, RoomList rooms, RoomNode *current, InventoryList invento
 }
 
 // Define a function to load the game
-bool `(int slot, RoomList &rooms, RoomNode *&current, InventoryList &inventory, Item *&hand, bool &hasBag)
+bool loadGame(int slot, RoomList &rooms, RoomNode *&current, InventoryList &inventory, Item *&hand, bool &hasBag)
 {
   ifstream file("save" + to_string(slot) + ".txt");
   string line;
+  
+    // reset item in room
+  RoomNode *temp1 = rooms.getHead()->getNext();
 
   // Load hasBag state
   file >> line;
   if (line == "0")
   {
+    temp1->resetItem();
     hasBag = true;
   }
   else
@@ -182,10 +185,9 @@ bool `(int slot, RoomList &rooms, RoomNode *&current, InventoryList &inventory, 
     hasBag = false;
   }
 
-  // reset item in room
-  RoomNode *temp1 = rooms.getHead()->getNext()->getNext();
+  temp1 = rooms.getHead()->getNext()->getNext();
 
-  for (int i = 0; i < 11; i++)
+  while (temp1 != nullptr)
   {
     file >> line;
     // getline(file, line); // skip bag
@@ -195,17 +197,20 @@ bool `(int slot, RoomList &rooms, RoomNode *&current, InventoryList &inventory, 
       if (hasBag)
       {
         inventory.insertNode(temp1->getItem()); // Insert the item to the inventory list
-        temp1->resetItem(); // Reset the item in the room if it is absent
+        temp1->resetItem();                     // Reset the item in the room if it is absent
       }
       else
       {
-        if(hand == nullptr){
+        if (hand == nullptr)
+        {
           hand = temp1->getItem();
           temp1->resetItem();
         }
         continue;
       }
-    }else if(line == "00"){
+    }
+    else if (line == "00")
+    {
       hand = nullptr;
       temp1->resetItem(); // Reset the item in the room if it is absent
     }
@@ -214,22 +219,42 @@ bool `(int slot, RoomList &rooms, RoomNode *&current, InventoryList &inventory, 
 
   RoomNode *temp2 = rooms.getHead()->getNext()->getNext()->getNext()->getNext()->getNext()->getHidden();
 
-  while(temp2 != nullptr){
+
+
+  while (temp2 != nullptr)
+  {
+
     file >> line;
-    if (line == "0")
+
+    if (line == "0" || line == "01")
     {
-      inventory.insertNode(temp2->getItem()); // Insert the item to the inventory list
+        inventory.insertNode(temp2->getItem()); // Insert the item to the inventory list
+        temp2->resetItem();                     // Reset the item in the room if it is absent
+    }
+    else if (line == "00")
+    { 
+      if(temp2->getRoomName() == "Secret Room 1"){
+        inventory.insertNode(new Item("a keycard with a number 1 in a circle", "Keycard1"));
+      }
+      else if(temp2->getRoomName() == "Secret Room 2"){
+        inventory.insertNode(new Item("a keycard with a number 2 in a circle", "Keycard2"));
+      }
+      else if(temp2->getRoomName() == "Secret Room 3"){
+        inventory.insertNode(new Item("a keycard with a number 3 in a circle", "Keycard3"));
+      }
       temp2->resetItem(); // Reset the item in the room if it is absent
     }
-    temp2 = temp2->getHidden();
+    temp2 = temp2->getNext();
   }
 
   getline(file, line); // consume endline
   getline(file, line); // Load current room
 
-  if(line == "Secret Room 1" || line == "Secret Room 2" || line == "Secret Room 3"){
+  if (line == "Secret Room 1" || line == "Secret Room 2" || line == "Secret Room 3" || line == "Final Secret Room")
+  {
     temp2 = rooms.getHead()->getNext()->getNext()->getNext()->getNext()->getNext()->getHidden();
-    while(temp2 != nullptr){
+    while (temp2 != nullptr)
+    {
       if (temp2->getRoomName() == line)
       {
         current = temp2; // Set the current room pointer to the matching room name
@@ -237,7 +262,9 @@ bool `(int slot, RoomList &rooms, RoomNode *&current, InventoryList &inventory, 
       }
       temp2 = temp2->getNext();
     }
-  }else{
+  }
+  else
+  {
     temp1 = rooms.getHead();
     while (temp1 != nullptr)
     {
@@ -250,11 +277,11 @@ bool `(int slot, RoomList &rooms, RoomNode *&current, InventoryList &inventory, 
     }
   }
 
+
   file.close(); // Close the file
 
   return true; // Return true to indicate successful loading
 }
-
 
 // Define a function to check whethere the save file is empty
 bool isFileEmpty(const string &filename)
@@ -459,7 +486,7 @@ void gameloop(string &input, bool &gameover, RoomList &rooms, RoomNode *&current
           }
         }
       }
-      else    
+      else
       {
         cout << "There is nothing to pick up." << endl;
       }
@@ -564,7 +591,7 @@ void gameloop(string &input, bool &gameover, RoomList &rooms, RoomNode *&current
           cout << "You feel more energized and alert." << endl;
           if (hasBag)
           {
-            inventory.deleteNode(name);
+            inventory.deleteNode(Title_Case(name));
           }
           else
           {
@@ -586,7 +613,7 @@ void gameloop(string &input, bool &gameover, RoomList &rooms, RoomNode *&current
             cout << "The box is surprisingly lightweight and seems to be of high quality." << endl;
             cout << "You notice a small piece of paper with something written on it." << endl;
             inventory.insertNode(new Item("A paper with something written on it", "Paper"));
-            inventory.deleteNode(name);
+            inventory.deleteNode(Title_Case(name));
           }
           else
           {
