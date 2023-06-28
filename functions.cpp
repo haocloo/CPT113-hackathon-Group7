@@ -166,7 +166,7 @@ void saveGame(int slot, RoomList rooms, RoomNode *current, InventoryList invento
 }
 
 // Define a function to load the game
-bool loadGame(int slot, RoomList &rooms, RoomNode *&current, InventoryList &inventory, Item *&hand, bool &hasBag)
+bool `(int slot, RoomList &rooms, RoomNode *&current, InventoryList &inventory, Item *&hand, bool &hasBag)
 {
   ifstream file("save" + to_string(slot) + ".txt");
   string line;
@@ -226,7 +226,6 @@ bool loadGame(int slot, RoomList &rooms, RoomNode *&current, InventoryList &inve
 
   getline(file, line); // consume endline
   getline(file, line); // Load current room
-  cout << "Current room" << line << endl;
 
   if(line == "Secret Room 1" || line == "Secret Room 2" || line == "Secret Room 3"){
     temp2 = rooms.getHead()->getNext()->getNext()->getNext()->getNext()->getNext()->getHidden();
@@ -460,7 +459,7 @@ void gameloop(string &input, bool &gameover, RoomList &rooms, RoomNode *&current
           }
         }
       }
-      else
+      else    
       {
         cout << "There is nothing to pick up." << endl;
       }
