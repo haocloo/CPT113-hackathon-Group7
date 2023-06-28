@@ -632,99 +632,16 @@ void gameloop(string &input, bool &gameover, RoomList &rooms, RoomNode *&current
         cout << "Nothing happens..." << endl;
       }
     }
-    else if (current->getRoomName() == "Secret Room 1" && input == "JOHN")
-    {
-        // Move to the next secret room if correct answer entered
-        cout << "Correct answer!!! ^O^" << endl;
-        cout << "Answer: The name of the fifth son is John. \n"
-			 << "The sentence states, 'John's father has five sons,' implying that John is one of the sons." << endl;
-    	cout << "Well done, intrepid explorers! You've proven your skills. \n"
-			 << "But the journey is far from over. \n"
-			 << "Prepare yourselves for what lies beyond this door." << endl;
-        current = current->getNext();
-	}
-	else if (current->getRoomName() == "Secret Room 2" && input == "R")
-    {
-        // Move to the next secret room if correct answer entered
-        cout << "Correct answer!!! ^O^" << endl;
-        cout << "Answer: The letter 'R' is the central letter in the word 'Australia'." << endl;
-    	cout << "Impressive... you have surpassed the second trial. \n"
-			 << "But can you navigate the depths of the unknown that lie ahead? \n"
-			 << "Enter, if you dare. But you got no choice. ^_~ " << endl;
-        current = current->getNext();
-	}
-	else if (current->getRoomName() == "Secret Room 3" && (input == "1" || input == "ONE"))
-    {
-        // Move to the next secret room if correct answer entered
-        cout << "Correct answer!!! ^O^" << endl;
-        cout << "Answer: One. After that, it isn't empty." << endl;
-    	cout << "You've unlocked the secrets of the previous room, but there's more to discover. \n"
-			 << "Step into the next chapter of this enigmatic puzzle and unlock the mysteries that await." << endl;
-        current = current->getNext();
-	}
     else if (input == "ANSWER")
     {
       // Move to the next secret room if possible
-      if (current->getRoomName() == "Secret Room 1" ||
-          current->getRoomName() == "Secret Room 2" ||
-          current->getRoomName() == "Secret Room 3")
+      if ((current->getRoomName() == "Secret Room 1" && inventory.existsNode("Keycard1"))||
+          (current->getRoomName() == "Secret Room 2" && inventory.existsNode("Keycard2")) ||
+          (current->getRoomName() == "Secret Room 3" && inventory.existsNode("Keycard3")))
       {
-        char choice;
-        string guess;
-        do
-        {
-          cout << "Do you know the answer of the question??? (Y/N)	";
-          cin >> choice;
-          choice = toupper(choice);
-        } while (choice != 'Y' && choice != 'N');
-
-        while (choice != 'N')
-        {
-          cout << "What is the answer???	";
-          cin >> guess;
-          for (int i = 0; i < guess.length(); i++) {
-        	guess[i] = toupper(guess[i]);
-    	}
-          // Move to the next room if possible
-          if ((current->getRoomName() == "Secret Room 1" && guess == "JOHN") ||
-              (current->getRoomName() == "Secret Room 2" && guess == "R") ||
-              (current->getRoomName() == "Secret Room 3" && (guess == "1" || guess == "ONE")))
-          {
-          	if  (current->getRoomName() == "Secret Room 1" && guess == "JOHN") {
-          		cout << "Correct answer!!! ^O^" << endl;
-          		cout << "Answer: The name of the fifth son is John. \n"
-			 		 << "The sentence states, 'John's father has five sons,' implying that John is one of the sons." << endl;
-          		cout << "Well done, intrepid explorers! You've proven your skills. \n"
-				  	 << "But the journey is far from over. \n"
-				   	 << "Prepare yourselves for what lies beyond this door." << endl;
-			  }	
-			else if (current->getRoomName() == "Secret Room 2" && guess == "R") {
-				cout << "Correct answer!!! ^O^" << endl;
-				cout << "Answer: The letter 'R' is the central letter in the word 'Australia'." << endl;
-				cout << "Impressive... you have surpassed the second trial. \n"
-					 << "But can you navigate the depths of the unknown that lie ahead? \n"
-					 << "Enter, if you dare. But you got no choice. ^_~ " << endl;
-			}	
-			else {
-				cout << "Correct answer!!! ^O^" << endl;
-				cout << "Answer: One. After that, it isn't empty." << endl;
-				cout << "You've unlocked the secrets of the previous room, but there's more to discover. \n"
-					 << "Step into the next chapter of this enigmatic puzzle and unlock the mysteries that await." << endl;
-			}
+        
             current = current->getNext();
-            choice = 'N';
-          }
-          else
-          {
-            cout << "Wrong answer!!!" << endl;
-            do
-            {
-              cout << "Do you want to try again??? (Y/N)	";
-              cin >> choice;
-              choice = toupper(choice);
-            } while (choice != 'Y' &&  choice != 'N');
-          }
-        }
+          
       }
       else
       {
@@ -840,7 +757,8 @@ void gameloop(string &input, bool &gameover, RoomList &rooms, RoomNode *&current
       }
       if (inventory.existsNode(Title_Case(name)) || name == "0")
       {
-        cout << "You used the " << name << "." << endl;
+      	if (name != "0")
+        	cout << "You used the " << name << "." << endl;
         // Check if the item is a riddle book
         if (name == "RIDDLE BOOK")
         {
@@ -894,11 +812,11 @@ void gameloop(string &input, bool &gameover, RoomList &rooms, RoomNode *&current
           cout << "You feel more energized and alert." << endl;
           inventory.deleteNode(name);
         }
-        if (name == "BAG")
+        if (name == "STAR KEY" || name == "STAR PUZZLE" || name == "SECRET KEY" || name == "KEYCARD1" || name == "KEYCARD2" || name == "KEYCARD3")
         {
           // Print a message and a hint
-          cout << "The bag is spacious and can store numerous items." << endl;
-          cout << "Make sure to gather useful objects and keep them in your bag for future challenges." << endl;
+          	cout << "These exquisite items radiate a captivating luminosity." << endl;
+			cout << "You contemplate their potential to grant access to hidden realms." << endl;
         }
         if (name == "BOX")
         {
@@ -963,7 +881,31 @@ void gameloop(string &input, bool &gameover, RoomList &rooms, RoomNode *&current
           cout << "With this, you need to do an 'answer' action." << endl;
           cout << "Question 1: John's father has five sons named Alan, Blan, Clan and Dlan. What did he call his fifth son?" << endl;
           cout << "Hint: Name with only one word." << endl;
+          cout << "What is the answer???	";
+          string guess;
+          cin >> guess;
+          for (int i = 0; i < guess.length(); i++) {
+        	guess[i] = toupper(guess[i]);
+	    	}
+	    	if ( guess == "JOHN")
+	    	{
+		        // Move to the next secret room if correct answer entered
+		        cout << "Correct answer!!! ^O^" << endl;
+		        cout << "Answer: The name of the fifth son is John. \n"
+					 << "The sentence states, 'John's father has five sons,' implying that John is one of the sons." << endl;
+		    	cout << "Well done, intrepid explorers! You've proven your skills. \n"
+					 << "But the journey is far from over. \n"
+					 << "Prepare yourselves for what lies beyond this door." << endl;
+		        inventory.deleteNode("Card11");
+		        inventory.insertNode(new Item("a keycard with a number 1 in a circle", "Keycard1"));
+		        current = current->getNext();
+			}
+			else
+	          {
+	            cout << "Wrong answer!!!" << endl;
+	          }
         }
+        
         if (name == "QUESTION2")
         {
           // Print a message and a hint
@@ -971,7 +913,30 @@ void gameloop(string &input, bool &gameover, RoomList &rooms, RoomNode *&current
           cout << "With this, you need to do an 'answer' action." << endl;
           cout << "Question 2: What is directly in the middle of Australia?" << endl;
           cout << "Hint: One letter only." << endl;
+          cout << "What is the answer???	";
+          string guess;
+          cin >> guess;
+          for (int i = 0; i < guess.length(); i++) {
+        	guess[i] = toupper(guess[i]);
+	    	}
+	    	if (guess == "R")
+	    	{
+		        // Move to the next secret room if correct answer entered
+		        cout << "Correct answer!!! ^O^" << endl;
+		        cout << "Answer: The letter 'R' is the central letter in the word 'Australia'." << endl;
+		    	cout << "Impressive... you have surpassed the second trial. \n"
+					 << "But can you navigate the depths of the unknown that lie ahead? \n"
+					 << "Enter, if you dare. ^_~ " << endl;
+		        inventory.deleteNode("Card2");
+		        inventory.insertNode(new Item("a keycard with a number 2 in a circle", "Keycard2"));
+		        current = current->getNext();
+			}
+			else
+	          {
+	            cout << "Wrong answer!!!" << endl;
+	          }
         }
+        
         if (name == "QUESTION3")
         {
           // Print a message and a hint
@@ -979,7 +944,28 @@ void gameloop(string &input, bool &gameover, RoomList &rooms, RoomNode *&current
           cout << "With this, you need to do an 'answer' action." << endl;
           cout << "Question 3: On average, how many books can you put in an empty backpack?" << endl;
           cout << "Hint: One digit number only (0 - 9 / zero - nine). " << endl;
-        }
+          cout << "What is the answer???	";
+          string guess;
+          cin >> guess;
+          for (int i = 0; i < guess.length(); i++) {
+        	guess[i] = toupper(guess[i]);
+	    	}
+	    	if (guess == "ONE")
+	    	{
+		        // Move to the next secret room if correct answer entered
+		        cout << "Correct answer!!! ^O^" << endl;
+		        cout << "Answer: One. After that, it isn't empty." << endl;
+		    	cout << "You've unlocked the secrets of the previous room, but there's more to discover. \n"
+					 << "Step into the next chapter of this enigmatic puzzle and unlock the mysteries that await." << endl;
+		        inventory.deleteNode("Card3");
+		        inventory.insertNode(new Item("a keycard with a number 3 in a circle", "Keycard3"));
+		        current = current->getNext();
+	        }
+	        else
+	          {
+	            cout << "Wrong answer!!!" << endl;
+	          }
+		}
         if (name == "0")
         {
         	cout << "You cancel the 'use' action." << endl;
@@ -1043,7 +1029,6 @@ void gameloop(string &input, bool &gameover, RoomList &rooms, RoomNode *&current
     }
   }
 }
-
 void Game(int choice = 0)
 {
   // Create a linked list of rooms
