@@ -390,7 +390,7 @@ public:
       }
       temp = temp->getNext();
     }
-    cout << endl; 
+    cout << endl;
   }
 
   // Get the head pointer of the list
@@ -401,29 +401,74 @@ public:
 };
 
 // Define a function to save the game
-void saveGame(int slot, RoomList rooms, RoomNode *current, InventoryList inventory, bool hasBag)
+void saveGame(int slot, RoomList rooms, RoomNode *current, InventoryList inventory, Item *hand, bool hasBag)
 {
   // Save the current room
   ofstream file("save" + to_string(slot) + ".txt");
+
+  // Save the bag state
+  if (hasBag)
+    file << "0" << endl;
+  else
+    file << "1" << endl;
+
   // Save the rooms' state
   RoomNode *temp1 = rooms.getHead()->getNext()->getNext();
+
   // InventoryNode *invItems = inventory.getHead();
   while (temp1 != nullptr)
   {
     if (temp1->getItem() != nullptr)
     {                      // If the room has an item
-      file << "1" << endl; // Write 1 to indicate the item is present
+      file << "1" << endl; // Write 1 to indicate the item is present in room
       // file << "1 " << temp1->getItem()->getName() << endl; // Write 1 to indicate the item is present
       temp1 = temp1->getNext();
     }
     else
-    {                      // If the room does not have an item
-      file << "0" << endl; // Write 0 to indicate the item is absent
-      // file << "0 " << invItems->getItem()->getName() << endl; // Write 0 to indicate the item is absent
-      temp1 = temp1->getNext();
+    { // If the room does not have an item
+      // if (hasBag)
+      // {
+        if (temp1->getRoomName() == "Dining Room")
+        {
+          if (inventory.existsNode("Water") == true || (hand != nullptr && hand->getName() == "Water"))
+          {
+            file << "01" << endl; // Write 01 to indicate the item is absent in room and has not been used
+          }
+          else
+          {
+            file << "00" << endl; // Write 00 to indicate the item is absent in room and has been used
+          }
+        }
+        else if (temp1->getRoomName() == "Garden")
+        {
+          if (inventory.existsNode("Box") == true || hand->getName() == "Box")
+          {
+            file << "01" << endl; // Write 01 to indicate the item is absent in room and has not been used
+          }
+          else
+          {
+            file << "00" << endl; // Write 00 to indicate the item is absent in room and has been used
+          }
+        }
+        else
+        {
+          file << "0" << endl;
+        }
+        temp1 = temp1->getNext();
+      
     }
-    // invItems = invItems->getNext();
-    // temp1 = temp1->getNext();
+  }
+ 
+  RoomNode *temp2 = rooms.getHead()->getNext()->getNext()->getNext()->getNext()->getNext()->getHidden();
+  while(temp2 != nullptr){
+    if (temp2->getItem() != nullptr)
+    {                      // If the room has an item
+      file << "1" << endl; // Write 1 to indicate the item is present in room
+      // file << "1 " << temp1->getItem()->getName() << endl; // Write 1 to indicate the item is present
+    }else{
+      file << "0" << endl;
+    }
+    temp2 = temp2->getHidden();    
   }
 
   // Save the current room
@@ -438,64 +483,92 @@ void saveGame(int slot, RoomList rooms, RoomNode *current, InventoryList invento
   //   temp2 = temp2->getNext();
   // }
 
-  // Save the bag state
-  if (hasBag)
-    file << "0" << endl;
-  else
-    file << "1" << endl;
-
   file.close(); // Close the file
 }
 
 // Define a function to load the game
-bool loadGame(int slot, RoomList &rooms, RoomNode *&current, InventoryList &inventory, bool &hasBag)
+bool loadGame(int slot, RoomList &rooms, RoomNode *&current, InventoryList &inventory, Item *&hand, bool &hasBag)
 {
   ifstream file("save" + to_string(slot) + ".txt");
-
-  // reset item in room
   string line;
-  RoomNode *temp1 = rooms.getHead()->getNext();
-
-  file >> line; // skip bag
-  // getline(file, line); // skip bag
-
-  for (int i = 0; i < 12; i++)
-  {
-    file >> line;
-    // getline(file, line); // skip bag
-    // line = line[0];
-    if (line == "0")
-    {
-      // cout << temp1->getItem()->getName() << endl;        // kiv
-      inventory.insertNode(temp1->getItem()); // Insert the item to the inventory list
-      temp1->resetItem();                     // Reset the item in the room if it is absent
-    }
-    temp1 = temp1->getNext();
-  }
-
-  getline(file, line); // consume endline
-  getline(file, line); // Load current room
-  temp1 = rooms.getHead();
-  while (temp1 != nullptr)
-  {
-    if (temp1->getRoomName() == line)
-    {
-      current = temp1; // Set the current room pointer to the matching room name
-      break;
-    }
-    temp1 = temp1->getNext();
-  }
 
   // Load hasBag state
   file >> line;
   if (line == "0")
   {
-    cout << "You have a bag." << endl;
     hasBag = true;
   }
   else
   {
     hasBag = false;
+  }
+
+  // reset item in room
+  RoomNode *temp1 = rooms.getHead()->getNext()->getNext();
+
+  for (int i = 0; i < 11; i++)
+  {
+    file >> line;
+    // getline(file, line); // skip bag
+    // line = line[0];
+    if (line == "0" || line == "01")
+    {
+      if (hasBag)
+      {
+        inventory.insertNode(temp1->getItem()); // Insert the item to the inventory list
+        temp1->resetItem(); // Reset the item in the room if it is absent
+      }
+      else
+      {
+        if(hand == nullptr){
+          hand = temp1->getItem();
+          temp1->resetItem();
+        }
+        continue;
+      }
+    }else if(line == "00"){
+      hand = nullptr;
+      temp1->resetItem(); // Reset the item in the room if it is absent
+    }
+    temp1 = temp1->getNext();
+  }
+
+  RoomNode *temp2 = rooms.getHead()->getNext()->getNext()->getNext()->getNext()->getNext()->getHidden();
+
+  while(temp2 != nullptr){
+    file >> line;
+    if (line == "0")
+    {
+      inventory.insertNode(temp2->getItem()); // Insert the item to the inventory list
+      temp2->resetItem(); // Reset the item in the room if it is absent
+    }
+    temp2 = temp2->getHidden();
+  }
+
+  getline(file, line); // consume endline
+  getline(file, line); // Load current room
+
+  if(line == "Secret Room 1" || line == "Secret Room 2" || line == "Secret Room 3"){
+    temp2 = rooms.getHead()->getNext()->getNext()->getNext()->getNext()->getNext()->getHidden();
+    while(temp2 != nullptr){
+      if (temp2->getRoomName() == line)
+      {
+        current = temp2; // Set the current room pointer to the matching room name
+        break;
+      }
+      temp2 = temp2->getNext();
+    }
+  }else{
+    temp1 = rooms.getHead();
+    while (temp1 != nullptr)
+    {
+      if (temp1->getRoomName() == line)
+      {
+        current = temp1; // Set the current room pointer to the matching room name
+        break;
+      }
+      temp1 = temp1->getNext();
+    }
   }
 
   file.close(); // Close the file
@@ -514,7 +587,7 @@ void gameloop(string &input, bool &gameover, RoomList &rooms, RoomNode *&current
     // Print the current room's clue
     if (current->getItem() != nullptr)
     {
-      cout << "> There is a " << current->getItem()->getClue() << "." << endl;
+      cout << "> There is " << current->getItem()->getClue() << "." << endl;
     }
     else
     {
@@ -563,7 +636,7 @@ void gameloop(string &input, bool &gameover, RoomList &rooms, RoomNode *&current
             cout << "Wrong password!!!" << endl;
             do
             {
-              cout << "Do you want to try again?	";
+              cout << "Do you want to try again?	(Y/N)";
               cin >> choice;
             } while (choice != 'Y' && choice != 'y' && choice != 'N' && choice != 'n');
           }
@@ -689,6 +762,7 @@ void gameloop(string &input, bool &gameover, RoomList &rooms, RoomNode *&current
           if (hand != nullptr)
           {
             inventory.insertNode(hand);
+            hand = nullptr;
           }
         }
         else
@@ -744,14 +818,30 @@ void gameloop(string &input, bool &gameover, RoomList &rooms, RoomNode *&current
     {
       // Use an item in the current room if possible
       string name;
-      cout << "You have ";
-      inventory.printList();
-      cout << "in your bag" << endl;
-      cout << "Which item do you want to use? ";
+      if(hasBag){
+        inventory.printList();
+        cout << "`? ";
+        cin.ignore();
+        getline(cin, name);
+      }else{
+        if(hand != nullptr){
+          cout << "You have " << hand->getName() << " in your hand." << endl;
+          cout << "Do you want to use it? (Y/N) ";
+          char choice;
+          cin >> choice;
+          if(choice == 'Y' || choice == 'y'){
+            name = hand->getName();
+          }else{
+            continue;
+          }
+        }else{
+          cout << "You have nothing in your hand." << endl;
+          continue;
+        }
+      }
 
-      cin.ignore();
-      getline(cin, name);
-      if (inventory.existsNode(name))
+
+      if (inventory.existsNode(name) || (hand != nullptr && hand->getName() == name))
       {
         cout << "You used the " << name << "." << endl;
         // Check if the item is a riddle book
@@ -802,21 +892,24 @@ void gameloop(string &input, bool &gameover, RoomList &rooms, RoomNode *&current
           // Print a message and a hint
           cout << "The water is refreshing and quenches your thirst." << endl;
           cout << "You feel more energized and alert." << endl;
-          inventory.deleteNode(name);
+          if(hasBag){
+            inventory.deleteNode(name);
+          }else{
+            hand = nullptr;
+          }
         }
-        if (name == "Bag")
-        {
-          // Print a message and a hint
-          cout << "The bag is spacious and can store numerous items." << endl;
-          cout << "Make sure to gather useful objects and keep them in your bag for future challenges." << endl;
-        }
+        // if (name == "Bag")
+        // {
+        //   // Print a message and a hint
+        //   cout << "The bag is spacious and can store numerous items." << endl;
+        //   cout << "Make sure to gather useful objects and keep them in your bag for future challenges." << endl;
+        // }
         if (name == "Box")
         {
           // Print a message about the requirement and a hint
           if (inventory.existsNode("Knife"))
           {
             cout << "You use the Knife to open it!" << endl;
-            inventory.deleteNode("Knife");
             cout << "The box is surprisingly lightweight and seems to be of high quality." << endl;
             cout << "You notice a small piece of paper with something written on it." << endl;
             inventory.insertNode(new Item("A paper with something written on it", "Paper"));
@@ -834,7 +927,6 @@ void gameloop(string &input, bool &gameover, RoomList &rooms, RoomNode *&current
           if (inventory.existsNode("Flashlight"))
           {
             cout << "You use the Flashlight to see the word on the paper!" << endl;
-            inventory.deleteNode("Flashlight");
             cout << "The last three code for the treasure is 888." << endl;
           }
           else
@@ -866,26 +958,26 @@ void gameloop(string &input, bool &gameover, RoomList &rooms, RoomNode *&current
           cout << "You wonder if it has any significance..." << endl;
         }
 
-        if (name == "Question1")
+        if (name == "CARD1")
         {
           // Print a message and a hint
-          cout << "To enter the next secret room, you need to answer the question." << endl;
+          cout << "\nTo enter the next secret room, you need to answer the question." << endl;
           cout << "With this, you need to do an 'answer' action." << endl;
           cout << "Question 1: John's father has five sons named Alan, Blan, Clan and Dlan. What did he call his fifth son?" << endl;
           cout << "Hint: Name with only one word." << endl;
         }
-        if (name == "Question2")
+        if (name == "CARD2")
         {
           // Print a message and a hint
-          cout << "To enter the next secret room, you need to answer the question." << endl;
+          cout << "\nTo enter the next secret room, you need to answer the question." << endl;
           cout << "With this, you need to do an 'answer' action." << endl;
           cout << "Question 2: What is directly in the middle of Australia?" << endl;
           cout << "Hint: One letter only." << endl;
         }
-        if (name == "Question3")
+        if (name == "CARD3")
         {
           // Print a message and a hint
-          cout << "To enter the next secret room, you need to answer the question." << endl;
+          cout << "\nTo enter the next secret room, you need to answer the question." << endl;
           cout << "With this, you need to do an 'answer' action." << endl;
           cout << "Question 3: On average, how many books can you put in an empty backpack?" << endl;
           cout << "Hint: One digit number only (0 - 9 / zero - nine). " << endl;
@@ -930,7 +1022,7 @@ void gameloop(string &input, bool &gameover, RoomList &rooms, RoomNode *&current
           cout << "Invalid slot. Please try again." << endl;
           cin >> slot;
         }
-        saveGame(slot, rooms, current, inventory, hasBag);
+        saveGame(slot, rooms, current, inventory, hand, hasBag);
         cout << "Your game has been saved." << endl;
       }
       else
@@ -941,8 +1033,8 @@ void gameloop(string &input, bool &gameover, RoomList &rooms, RoomNode *&current
     }
     else
     {
-      // Invalid input
-      cout << "I do not recognize this action. Please try again." << endl;
+      // Invalid acton
+      cout << "There is no such action." << endl;
     }
   }
 }
@@ -1065,19 +1157,19 @@ void Game(int choice = 0)
   rooms.insertHidden(
       "Secret Room 3",
       "You enter a hidden secret room, you notice another card on a dusty table. It seems to be the clue to the next secret room.",
-      new Item("A card with a question", "Question3"),
+      new Item("a card with a question", "CARD3"),
       nullptr,
       "Library");
   rooms.insertHidden(
       "Secret Room 2",
       "You enter a hidden secret room, you notice a card on a dusty table again. It seems to be the clue to the next secret room.",
-      new Item("A card with a question", "Question2"),
+      new Item("a card with a question", "CARD2"),
       nullptr,
       "Library");
   rooms.insertHidden(
       "Secret Room 1",
       "You enter a hidden secret room, you notice a card on a dusty table. It seems to be the clue to the next secret room.",
-      new Item("A card with a question", "Question1"),
+      new Item("a card with a question", "CARD1"),
       nullptr,
       "Library");
 
@@ -1112,7 +1204,7 @@ void Game(int choice = 0)
   if (choice)
   {
     // Load the game
-    loadGame(choice, rooms, current, inventory, hasBag);
+    loadGame(choice, rooms, current, inventory, hand, hasBag);
   }
 
   // Start the game
