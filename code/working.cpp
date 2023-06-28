@@ -624,10 +624,24 @@ void gameloop(string &input, bool &gameover, RoomList &rooms, RoomNode *&current
           cout << "What is the answer???	";
           cin >> guess;
           // Move to the next room if possible
-          if ((current->getRoomName() == "Secret Room 1" && guess == "John") ||
-              (current->getRoomName() == "Secret Room 2" && guess == "R") ||
-              (current->getRoomName() == "Secret Room 3" && (guess == "One" || guess == "1")))
+          if ((current->getRoomName() == "Secret Room 1" && (guess == "John" || guess == "JOHN" || guess == "john")) ||
+              (current->getRoomName() == "Secret Room 2" && (guess == "R" || guess == "r")) ||
+              (current->getRoomName() == "Secret Room 3" && (guess == "One" || guess == "1" || guess == "ONE" || guess == "one")))
           {
+          	if  (current->getRoomName() == "Secret Room 1" && (guess == "John" || guess == "JOHN" || guess == "john")) {
+          		cout << "Well done, intrepid explorers! You've proven your skills. \n"
+				  	 << "But the journey is far from over. \n"
+				   	 << "Prepare yourselves for what lies beyond this door." << endl;
+			  }	
+			else if (current->getRoomName() == "Secret Room 2" && (guess == "R" || guess == "r")) {
+				cout << "Impressive... you have surpassed the second trial. \n"
+					 << "But can you navigate the depths of the unknown that lie ahead? \n"
+					 << "Enter, if you dare. But you got no choice. ^_~ " << endl;
+			}	
+			else {
+				cout << "You've unlocked the secrets of the previous room, but there's more to discover. \n"
+					 << "Step into the next chapter of this enigmatic puzzle and unlock the mysteries that await." << endl;
+			}
             current = current->getNext();
             choice = 'N';
           }
@@ -998,28 +1012,32 @@ void Game(int choice = 0)
 
   rooms.insertNode(
       "Attic",
-      "You climb up a creaky staircase, reaching the attic. The room is filled with old trunks and forgotten memories. \n"
+      "You climb up a creaky staircase, reaching the attic. \n"
+	  "The room is filled with old trunks and forgotten memories. \n"
       "Among the scattered items, you find a dusty diary.",
       new Item("a dusty diary", "Diary"),
       nullptr);
 
   rooms.insertNode(
       "Tower",
-      "You arrive at the top of the tower. The wind howls, and you can see the vast expanse of the surrounding landscape. \n"
+      "You arrive at the top of the tower. \n"
+	  "The wind howls, and you can see the vast expanse of the surrounding landscape. \n"
       "In the corner, there is a telescope with crystal-clear lenses.",
       new Item("a telescope with crystal-clear lenses", "Telescope"),
       nullptr);
 
   rooms.insertNode(
       "Garden",
-      "You find yourself in a serene garden, vibrant with colorful flowers and the soothing sound of a trickling fountain. \n"
+      "You find yourself in a serene garden. \n"
+	  "The garden is vibrant with colorful flowers and the soothing sound of a trickling fountain. \n"
       "Among the blossoms, you spot a box with a complex knot.",
       new Item("a box with a complex knot", "Box"),
       nullptr);
 
   rooms.insertNode(
       "Crypt",
-      "You find yourself in a dimly lit crypt, the air heavy with a musty scent. Among the ancient tombstones, you spot a silver cross."
+      "You find yourself in a dimly lit crypt, the air heavy with a musty scent. \n"
+	  "Among the ancient tombstones, you spot a silver cross."
       "On the silver cross, there are some words.",
       new Item("a silver cross", "Silver Cross"),
       nullptr);
@@ -1034,7 +1052,8 @@ void Game(int choice = 0)
   rooms.insertNode(
       "Study",
       "You enter a mysterious study, with bookshelves stacked high with leather-bound tomes. \n"
-      "A crackling fireplace warms the room. As you approach the desk, you see a puzzle piece with a star shape.",
+      "A crackling fireplace warms the room. \n"
+	  "As you approach the desk, you see a puzzle piece with a star shape.",
       new Item("a puzzle piece with a star shape", "Star Puzzle"),
       nullptr);
 
@@ -1047,13 +1066,6 @@ void Game(int choice = 0)
 
   // Insert hidden rooms
   rooms.insertHidden(
-      "Secret Room",
-      "You enter a hidden secret room, shrouded in darkness. As your eyes adjust, you notice a key with a star symbol on a dusty shelf. It seems to be the key to a hidden treasure chest.",
-      new Item("a key with a star symbol", "Star Key"),
-      nullptr,
-      "Library");
-
-  rooms.insertHidden(
       "Final Secret Room",
       "You enter the last secret room, shrouded in darkness. \n"
       "As your eyes adjust, you notice a key with a star symbol on a dusty shelf. \n"
@@ -1061,22 +1073,24 @@ void Game(int choice = 0)
       new Item("a key with a star symbol", "Star Key"),
       nullptr,
       "Library");
-
   rooms.insertHidden(
       "Secret Room 3",
-      "You enter a hidden secret room, you notice another card on a dusty table. It seems to be the clue to the next secret room.",
+      "You enter a hidden secret room, you notice another card on a dusty table. \n"
+	  "It seems to be the clue to the next secret room.",
       new Item("A card with a question", "Question3"),
       nullptr,
       "Library");
   rooms.insertHidden(
       "Secret Room 2",
-      "You enter a hidden secret room, you notice a card on a dusty table again. It seems to be the clue to the next secret room.",
+      "You enter a hidden secret room, you notice a card on a dusty table again. \n"
+	  "It seems to be the clue to the next secret room.",
       new Item("A card with a question", "Question2"),
       nullptr,
       "Library");
   rooms.insertHidden(
       "Secret Room 1",
-      "You enter a hidden secret room, you notice a card on a dusty table. It seems to be the clue to the next secret room.",
+      "You enter a hidden secret room, you notice a card on a dusty table. \n"
+	  "It seems to be the clue to the next secret room.",
       new Item("A card with a question", "Question1"),
       nullptr,
       "Library");
