@@ -632,7 +632,7 @@ void gameloop(string &input, bool &gameover, RoomList &rooms, RoomNode *&current
         cout << "Nothing happens..." << endl;
       }
     }
-    else if (input == "ANSWER")
+    else if (input == "GO")
     {
       // Move to the next secret room if possible
       if ((current->getRoomName() == "Secret Room 1" && inventory.existsNode("Keycard1"))||
