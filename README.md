@@ -127,7 +127,7 @@ The program uses two types of linked lists: a doubly linked list for the rooms a
 
 ### Room List
 
-The room list is a doubly linked list that allows traversal in both directions. The list has a head and a tail pointer, and each node has a next and a prev pointer. The list also has methods to insert nodes at the end of the list or at a specific position based on the hidden room attribute. The list also has methods to delete nodes, reset items, check if a node exists, print the list, and get the head pointer.
+The room list is a doubly linked list that allows traversal in both directions. The list has a head and a tail pointer, and each node has a next and a prev pointer. The list also has methods to insert nodes at the end of the list or at a specific position based on the hidden room attribute. The list also has methods to delete nodes, reset items, check if a node exists, and get the head pointer.
 
 ### Inventory List
 
