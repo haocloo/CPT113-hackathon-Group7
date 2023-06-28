@@ -111,7 +111,7 @@ The program uses polymorphism to allow different types of objects to be treated 
 The program uses encapsulation to hide the implementation details of the classes from the outside world. For example:
 
 - The Room class has private attributes such as name, description, item, treasure, and hidden room that can only be accessed by the methods of the class.
-- The Room class has public methods such as getName(), getDescription(), getItem(), getTreasure(), getHidden(), setName(), setDescription(), setItem(), setTreasure(), setHidden(), and printRoom() that provide an interface for other classes or functions to interact with the Room object.
+- The Room class has public methods such as getName(), getDescription(), getItem(), getTreasure(), getHidden(), setName(), setDescription(), setItem(), setTreasure(), and setHidden() that provide an interface for other classes or functions to interact with the Room object.
 - The Room class does not expose its internal data structures or algorithms to other classes or functions.
 - Similarly, the Item, Treasure, and Node classes also use encapsulation to protect their private attributes and provide public methods for accessing and modifying them.
 - Encapsulation helps to achieve modularity, reusability, and maintainability of the code. It also prevents unwanted or accidental changes to the data or behavior of the objects.
