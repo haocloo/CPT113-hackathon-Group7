@@ -761,11 +761,11 @@ void gameloop(string &input, bool &gameover, RoomList &rooms, RoomNode *&current
       cout << "You have ";
       inventory.printList();
       cout << "in your bag" << endl;
-      cout << "Which item do you want to use? ";
+      cout << "Which item do you want to use? (Press 0 to cancel)	";
 
       cin.ignore();
       getline(cin, name);
-      if (inventory.existsNode(name))
+      if (inventory.existsNode(name) || name == "0")
       {
         cout << "You used the " << name << "." << endl;
         // Check if the item is a riddle book
@@ -904,6 +904,11 @@ void gameloop(string &input, bool &gameover, RoomList &rooms, RoomNode *&current
           cout << "Question 3: On average, how many books can you put in an empty backpack?" << endl;
           cout << "Hint: One digit number only (0 - 9 / zero - nine). " << endl;
         }
+        if (name == "0")
+        {
+        	cout << "You cancel the 'use' action." << endl;
+        	continue;
+		}
         // Delete the item from the inventory after use
         // inventory.deleteNode(name);
       }
