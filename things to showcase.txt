@@ -19,7 +19,7 @@ hold only 1 item in the hand
 3.pick & inv
 - a) demo pick item 
 
-- dont pick bag
+- dont pick bag (show stuff will dissapear in room)
 - pick stuff
 - inv
 - pick other stuff - cannot pick anymore stuff
@@ -32,22 +32,51 @@ hold only 1 item in the hand
 
 4. use 
 - 2 types of item, temporary @ permanent
+    -temporary (water)
+        - pick
+        - use water
+        - inv
 
-showcase temporary (water)
-- pick
-- use water
-- inv
+    -showcase permanent (knife)
+        -pick
+        -use knife
+        -inv
 
-showcase permanent (knife)
--pick
--use knife
--inv
-
-5. quit
+5. quit & save
 - a) No -> quit game
 - b) Back -> resume with current progress
 - c) Yes -> i) choose slot
                 - case 1: existing slot, overwrite
                 - case 2: non-exisit slot, save
             ii) back -> resume with current progress
+
+6 load game
+- if no save file, then will start game immediately
+- if savefile exists, can choose to
+    - 1. start new game
+    - 2. load previous saved game progress
+        - choose which slot to load, 
+
+
+7. how to get into hidden room 
+- what do we need to access hidden room?
+    - 1 item is required and secret phrase is required
+        - item: Secret Key (spanwed in Cellar)
+        - secret phrase: open_sesame! (clue from Silver Cross, in Crypt) 
+
+- where to get into hidden room?
+    - hidden room connected to library
+    - get secret key in cellar
+    - then get back to library
+    - use secret key-
+    - type Open_sesame!
+    - then you will be led to secret room 1
+
+8. explain gameplay in secret room
+- pick card
+- use card
+- answer the brain teaser
+- if correct, then will be led to next secret room, else, try again
+-repeat the proccess until 
+
 
