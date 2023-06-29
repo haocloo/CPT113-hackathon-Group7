@@ -14,7 +14,7 @@ This picture shows the entire game map.
 
 <br>
 
-### [Link to the game demo video](https://youtu.be/5RLFO1FOpHs)
+### [Link to the game demo video](https://youtu.be/4V_jJX03u20)
 
 
 <br>
