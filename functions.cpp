@@ -99,7 +99,6 @@ void saveGame(int slot, RoomList rooms, RoomNode *current, InventoryList invento
   RoomNode *temp2 = rooms.getHead()->getNext()->getNext()->getNext()->getNext()->getNext()->getHidden();
   while (temp2 != nullptr )
   {
-        cout << temp2->getRoomName() << endl;
 
     if (temp2->getItem() != nullptr)
     {                      // If the room has an item
@@ -320,10 +319,10 @@ void gameloop(string &input, bool &gameover, RoomList &rooms, RoomNode *&current
           inventory.existsNode(current->getTreasure()->getRequirement2()))
       {
         // Ask the player to enter the password
-        int choice;
+        char choice;
         do
         {
-          cout << "Do you know the password??? (Y/N)	";
+          cout << "Do you know the password? (Y/N)\n$ ";
           cin >> choice;
         } while (toupper(choice) != 'Y' && toupper(choice) != 'N');
 
@@ -332,14 +331,14 @@ void gameloop(string &input, bool &gameover, RoomList &rooms, RoomNode *&current
           int password;
           do
           {
-            cout << "What is the password???	";
+            cout << "What is the password?\n$ ";
             cin >> password;
           } while (password < 0 || password > 999999);
 
           if (current->getTreasure()->getPassword() == password)
           {
             // Print the winning message and end the game
-            cout << "Correct password!" << endl;
+            cout << "\nCorrect password!" << endl;
             cout << "You use the " << current->getTreasure()->getRequirement1() << " and " << current->getTreasure()->getRequirement2() << " to open the chest and find the treasure!" << endl;
             cout << "Congratulations, you win!" << endl;
             gameover = true;
@@ -350,7 +349,7 @@ void gameloop(string &input, bool &gameover, RoomList &rooms, RoomNode *&current
             cout << "Wrong password." << endl;
             do
             {
-              cout << "Do you want to try again?	(Y/N)";
+              cout << "Do you want to try again? (Y/N)\n$ ";
               cin >> choice;
             } while (toupper(choice) != 'Y' && toupper(choice) != 'N');
           }
@@ -993,8 +992,8 @@ void Game(int choice = 0)
   cout << "Goal : Find the treasure hidden in one of the rooms." << endl;
   cout << endl;
   cout << "Commands: Actions " << endl;
-  cout << "'next'  : move to previous room" << endl;
-  cout << "'prev'  : move to next room" << endl;
+  cout << "'next'  : move to next room" << endl;
+  cout << "'prev'  : move to prev room" << endl;
   cout << "'pick'  : pick up an item in a room" << endl;
   cout << "'use'   : use an item in a room" << endl;
   cout << "'inv'   : check your inventory" << endl;
